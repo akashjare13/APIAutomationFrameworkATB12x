@@ -1,4 +1,4 @@
-package com.thetestingacademy.ex_07_Payload_management.Class.Tools.responsepojos;
+package com.thetestingacademy.pojos.responsePOJO;
 
 
 
