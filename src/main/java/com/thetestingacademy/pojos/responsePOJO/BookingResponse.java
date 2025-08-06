@@ -2,7 +2,7 @@ package com.thetestingacademy.pojos.responsePOJO;
 
 
 
-import com.thetestingacademy.ex_07_Payload_management.Class.Tools.requestPojos.Booking;
+import com.thetestingacademy.pojos.requestPOJO.Booking;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
