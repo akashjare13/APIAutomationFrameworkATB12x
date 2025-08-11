@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import static org.testng.Assert.assertEquals;
 import static org.assertj.core.api.Assertions.*;
+import static org.testng.Assert.assertTrue;
 
 public class AssertActions {
 
@@ -37,6 +38,12 @@ public class AssertActions {
         // AssertJ
         assertThat(keyExpect).isNotNull();
     }
+
+    public void verifyTrue(Boolean keyExpect){
+        // AssertJ
+        assertTrue(keyExpect);
+    }
+
 
 
 }

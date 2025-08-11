@@ -6,6 +6,8 @@ import com.thetestingacademy.pojos.responsePOJO.BookingResponse;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.testng.annotations.Test;
 
 public class TestCreateBooking extends BaseTest {
@@ -40,18 +42,45 @@ public class TestCreateBooking extends BaseTest {
     @Owner("Akash")
     @Description("TC#1 - Verify that the Booking can't be Created, When Payload is null")
     public void testCreateBookingPOST_Negative() {
+        requestSpecification.basePath(APIConstants.CREATE_UPDATE_BOOKING_URL);
+         response = RestAssured.given(requestSpecification).when().body("{}").log().all().post();
+         validatableResponse = response.then().log().all();
+         validatableResponse.statusCode(500);
 
     }
     @Test(groups = "reg", priority = 1)
     @Owner("Akash")
     @Description("TC#1 - Verify that the Booking can be Created, When Payload is CHINESE")
-    public void testCreateBookingPOST_POSITIVE_CHINESE() {}
+    public void testCreateBookingPOST_POSITIVE_CHINESE() {
+        requestSpecification.basePath(APIConstants.CREATE_UPDATE_BOOKING_URL);
+        response = RestAssured.given(requestSpecification).when()
+                .body(payloadManager.createPayloadBookingAsStringWrongBody())
+                .log().all().post();
+        validatableResponse = response.then().log().all();
+        validatableResponse.statusCode(200);
+
+        //Extraction Part - 2
+        BookingResponse bookingResponse = payloadManager.bookingResponseJava(response.asString());
+        assertActions.verifyStringKeyNotNull(bookingResponse.getBookingid());
+
+    }
 
 
     @Test(groups = "reg", priority = 1)
     @Owner("Akash")
     @Description("TC#1 - Verify that the Booking can be Created, When Payload is RANDOM")
-    public void testCreateBookingPOST_POSITIVE_RANDOM_DATA() {
+    public void testCreateBookingPOST_POSITIVE_FAKER_RANDOM_DATA() {
+
+        requestSpecification.basePath(APIConstants.CREATE_UPDATE_BOOKING_URL);
+        response = RestAssured.given(requestSpecification).when()
+                .body(payloadManager.createPayloadBookingFakerJS()).log().all().post();
+        validatableResponse = response.then().log().all();
+        validatableResponse.statusCode(200);
+
+        //Extraction Part - 2
+        BookingResponse bookingResponse = payloadManager.bookingResponseJava(response.asString());
+        assertActions.verifyStringKeyNotNull(bookingResponse.getBookingid());
+        assertActions.verifyStringKeyNotNull(bookingResponse.getBooking().getFirstname());
 
     }
 
